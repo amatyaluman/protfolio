@@ -1,4 +1,3 @@
-// src/Portfolio.jsx
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import ThreeScene from "./components/ThreeScene";
@@ -8,12 +7,33 @@ const Portfolio = () => {
   const [roleIndex, setRoleIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Set page title
+  useEffect(() => {
+    document.title = "Luman Amatya|Protfolio";
+
+    // Add meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Portfolio of Luman Amatya, a passionate Junior Quality Analyst specializing in software testing, automation, and quality assurance."
+      );
+    } else {
+      const meta = document.createElement("meta");
+      meta.name = "description";
+      meta.content =
+        "Portfolio of Luman Amatya, a passionate Junior Quality Analyst specializing in software testing, automation, and quality assurance.";
+      document.head.appendChild(meta);
+    }
+  }, []);
+
   const roles = [
     "Quality Analyst",
     "Software QA Specialist",
     "Automation & Testing",
   ];
 
+  // Typing effect
   useEffect(() => {
     const currentRole = roles[roleIndex];
     const typingSpeed = isDeleting ? 50 : 100;
@@ -59,6 +79,26 @@ const Portfolio = () => {
       <ThreeScene />
 
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50 text-gray-900 overflow-x-hidden relative">
+        {/* Animated background gradient */}
+        <div className="fixed inset-0 -z-10 pointer-events-none">
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            animate={{
+              background: [
+                "radial-gradient(circle at 20% 50%, rgba(139,92,246,0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 80% 20%, rgba(236,72,153,0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 40% 80%, rgba(99,102,241,0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 20% 50%, rgba(139,92,246,0.15) 0%, transparent 50%)",
+              ],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
           {/* HERO SECTION */}
           <motion.header
@@ -78,13 +118,28 @@ const Portfolio = () => {
                   Luman Amatya
                 </span>
               </h1>
+              <motion.div
+                className="absolute -inset-x-4 -inset-y-4 blur-3xl opacity-20 -z-10"
+                animate={{
+                  background: [
+                    "radial-gradient(circle, #8b5cf6, transparent)",
+                    "radial-gradient(circle, #ec4899, transparent)",
+                    "radial-gradient(circle, #6366f1, transparent)",
+                  ],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              />
             </motion.div>
 
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-              className="inline-flex items-center gap-3 px-6 py-4 sm:px-8 sm:py-5 bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl border border-purple-200/50"
+              className="inline-flex items-center gap-3 px-6 py-4 sm:px-8 sm:py-5 bg-white/80 backdrop-blur-lg rounded-2xl sm:rounded-3xl shadow-xl border border-purple-200/50 mx-auto"
             >
               <span className="text-xl sm:text-2xl md:text-3xl font-light text-gray-800 min-h-[2.5rem] flex items-center">
                 {displayText || "\u00A0"}
@@ -138,7 +193,14 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="flex justify-center items-center min-h-[400px] lg:min-h-[500px]">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="flex justify-center items-center min-h-[400px] lg:min-h-[500px]"
+            >
+              {/* Stats Card */}
               <div className="relative w-full max-w-md">
                 <motion.div
                   initial={{ rotateY: 90, opacity: 0 }}
@@ -181,7 +243,7 @@ const Portfolio = () => {
                   </div>
                 </motion.div>
               </div>
-            </div>
+            </motion.div>
           </motion.section>
 
           {/* CONTACT SECTION */}
@@ -215,7 +277,7 @@ const Portfolio = () => {
                 href="mailto:lumanamatya@example.com"
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-10 py-4 sm:px-12 sm:py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
+                className="px-10 py-4 sm:px-12 sm:py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto text-center"
               >
                 Send me an Email
               </motion.a>
@@ -225,7 +287,7 @@ const Portfolio = () => {
                 download="Luman_Amatya_Resume.pdf"
                 whileHover={{ scale: 1.05, y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-10 py-4 sm:px-12 sm:py-5 bg-white hover:bg-gray-50 text-purple-700 text-lg font-semibold rounded-full shadow-lg border-2 border-purple-300 hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
+                className="px-10 py-4 sm:px-12 sm:py-5 bg-white hover:bg-gray-50 text-purple-700 text-lg font-semibold rounded-full shadow-lg border-2 border-purple-300 hover:shadow-xl transition-all duration-300 w-full sm:w-auto text-center"
               >
                 Download Resume
               </motion.a>
@@ -246,7 +308,8 @@ const Portfolio = () => {
                 whileHover={{ y: -8, scale: 1.2 }}
                 className="text-[#0077b5] hover:text-[#006097] transition-colors duration-300"
               >
-                <i className="fab fa-linkedin"></i>
+                <span className="sr-only">LinkedIn</span>
+                LinkedIn
               </motion.a>
               <motion.a
                 href="https://github.com/yourusername"
@@ -255,7 +318,8 @@ const Portfolio = () => {
                 whileHover={{ y: -8, scale: 1.2 }}
                 className="text-gray-800 hover:text-black transition-colors duration-300"
               >
-                <i className="fab fa-github"></i>
+                <span className="sr-only">GitHub</span>
+                GitHub
               </motion.a>
             </motion.div>
 
@@ -266,6 +330,15 @@ const Portfolio = () => {
               viewport={{ once: true }}
               className="text-gray-600"
             >
+              <div className="flex flex-wrap justify-center gap-4 text-sm sm:text-base mb-4">
+                <span>React</span>
+                <span>•</span>
+                <span>Tailwind CSS</span>
+                <span>•</span>
+                <span>Framer Motion</span>
+                <span>•</span>
+                <span>Three.js</span>
+              </div>
               <p className="text-sm">
                 © {new Date().getFullYear()} Luman Amatya — Crafted with passion
                 and precision
@@ -273,12 +346,6 @@ const Portfolio = () => {
             </motion.footer>
           </motion.section>
         </div>
-
-        {/* Font Awesome */}
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
       </div>
     </>
   );
